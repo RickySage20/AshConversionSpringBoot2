@@ -43,5 +43,6 @@ services:
 databases:
   - name: institution-eav-db-m5aq
     plan: free
-    databaseName: institution-eav-db-m5aq
+    databaseName: institution_eav_db_m5aq
     user: institution_eav_user
+
