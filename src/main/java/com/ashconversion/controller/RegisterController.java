@@ -55,7 +55,7 @@ public class RegisterController {
             FlashMessageUtil.addSuccess(session,
                     "Inscription réussie ! Vous pouvez vous connecter.");
 
-            return "redirect:" + RouteConstants.DASHBOARD;
+            return "redirect:" + RouteConstants.LOGIN;
 
         } catch (AuthenticationException e) {
             FlashMessageUtil.addError(session, e.getMessage());

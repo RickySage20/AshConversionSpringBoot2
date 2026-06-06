@@ -62,15 +62,18 @@ public class LoginController {
             loginDTO.setPassword(password);
 
             User user = userService.login(loginDTO);
+            logger.info("Utilisateur trouvé: {} avec ID: {}", user.getUsername(), user.getId());
 
             // Protection contre la fixation de session
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
                 oldSession.invalidate();
+                logger.debug("Ancienne session invalidée");
             }
 
             HttpSession newSession = request.getSession(true);
             newSession.setAttribute(SESSION_USER_ID_ATTRIBUTE, user.getId());
+            logger.info("Session créée avec userId: {}", user.getId());
             newSession.setMaxInactiveInterval(30 * 60);
 
             redirectAttributes.addFlashAttribute("success",
@@ -80,7 +83,7 @@ public class LoginController {
             return "redirect:" + RouteConstants.DASHBOARD;
 
         } catch (AuthenticationException e) {
-            logger.warn("Échec de connexion pour l'utilisateur {}", username);
+            logger.warn("Échec de connexion pour l'utilisateur {}: {}", username, e.getMessage());
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:" + RouteConstants.LOGIN;
         }
